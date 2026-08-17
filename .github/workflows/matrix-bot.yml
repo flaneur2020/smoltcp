@@ -45,7 +45,7 @@ jobs:
             const accessToken = process.env.MATRIX_ACCESS_TOKEN;
 
             const response = await fetch(
-              `https://matrix.org/_matrix/client/r0/rooms/${roomId}/send/m.room.message`,
+              `https://catircservices.org/_matrix/client/r0/rooms/${roomId}/send/m.room.message`,
               {
                 method: 'POST',
                 headers: {
