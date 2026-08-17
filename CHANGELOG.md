@@ -1,4 +1,4 @@
-    # Changelog
+# Changelog
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -6,7 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- None yet!
+
+## [0.14.0] - 2026-08-07
+
 - wire: Expose the `checksum` module publicly, so downstream crates can compute RFC 1071 Internet checksums over discontiguous buffers. ([#1172](https://github.com/smoltcp-rs/smoltcp/pull/1172))
+- tcp: don't rate-limit ACKs for out-of-window data segments. ([#1162](https://github.com/smoltcp-rs/smoltcp/pull/1162))
+- tcp: more rfc-compliant out-of-window rx handling. ([#1164](https://github.com/smoltcp-rs/smoltcp/pull/1164))
+- tcp: better handling of MSS ([#1161](https://github.com/smoltcp-rs/smoltcp/pull/1161))
+- tcp: congestion control api redesign to better support loss-based algorithms ([#1154](https://github.com/smoltcp-rs/smoltcp/pull/1154))
+- tcp: make reno RFC compliant ([#1156](https://github.com/smoltcp-rs/smoltcp/pull/1156))
+- tcp: make CUBIC RFC compliant ([#1157](https://github.com/smoltcp-rs/smoltcp/pull/1157))
+- tcp: fast retransmit improvements ([#1155](https://github.com/smoltcp-rs/smoltcp/pull/1155))
+- Implement core::error::Error for errors ([#1175](https://github.com/smoltcp-rs/smoltcp/pull/1175))
+- ip: Optimize the internet checksum calculation ([#1176](https://github.com/smoltcp-rs/smoltcp/pull/1176))
+- Upgrade `defmt` to version 1
+- tcp: add single-pass zero-allocation TcpOptionSummary parser ([#1194](https://github.com/smoltcp-rs/smoltcp/pull/1194))
+- phy: add TCP segmentation offload support ([#1148](https://github.com/smoltcp-rs/smoltcp/pull/1148))
 
 ## [0.13.1] - 2026-05-01
 
@@ -371,7 +387,7 @@ only processed when directed to the 255.255.255.255 address. ([377](https://gith
 - tcp: Accept data packets in FIN_WAIT_2 state. ([350](https://github.com/smoltcp-rs/smoltcp/pull/350))
 - tcp: Always send updated ack number in `ack_reply()`. ([353](https://github.com/smoltcp-rs/smoltcp/pull/353))
 - tcp: allow sending ACKs in FinWait2 state. ([388](https://github.com/smoltcp-rs/smoltcp/pull/388))
-- tcp: fix racey simultaneous close not sending FIN. ([398](https://github.com/smoltcp-rs/smoltcp/pull/398)) 
+- tcp: fix racey simultaneous close not sending FIN. ([398](https://github.com/smoltcp-rs/smoltcp/pull/398))
 - tcp: Do not send window updates in states that shouldn't do so ([360](https://github.com/smoltcp-rs/smoltcp/pull/360))
 - tcp: Return RST to unexpected ACK in SYN-SENT state. ([367](https://github.com/smoltcp-rs/smoltcp/pull/367))
 - tcp: Take MTU into account during TcpSocket dispatch. ([384](https://github.com/smoltcp-rs/smoltcp/pull/384))
@@ -379,14 +395,15 @@ only processed when directed to the 255.255.255.255 address. ([377](https://gith
 - phy: Take Ethernet header into account for MTU of RawSocket and TapInterface. ([393](https://github.com/smoltcp-rs/smoltcp/pull/393))
 - phy: add null terminator to c-string passed to libc API ([372](https://github.com/smoltcp-rs/smoltcp/pull/372))
 
-### Quality of Life&trade; improvements 
+### Quality of Life&trade; improvements
 - Update to Rust 2018 edition ([396](https://github.com/smoltcp-rs/smoltcp/pull/396))
 - Migrate CI to Github Actions ([390](https://github.com/smoltcp-rs/smoltcp/pull/390))
 - Fix clippy lints, enforce clippy in CI ([395](https://github.com/smoltcp-rs/smoltcp/pull/395), [402](https://github.com/smoltcp-rs/smoltcp/pull/402), [403](https://github.com/smoltcp-rs/smoltcp/pull/403), [405](https://github.com/smoltcp-rs/smoltcp/pull/405), [407](https://github.com/smoltcp-rs/smoltcp/pull/407))
 - Use #[non_exhaustive] for enums and structs ([409](https://github.com/smoltcp-rs/smoltcp/pull/409), [411](https://github.com/smoltcp-rs/smoltcp/pull/411))
 - Simplify lifetime parameters of sockets, SocketSet, EthernetInterface ([410](https://github.com/smoltcp-rs/smoltcp/pull/410), [413](https://github.com/smoltcp-rs/smoltcp/pull/413))
 
-[Unreleased]: https://github.com/smoltcp-rs/smoltcp/compare/v0.13.1...HEAD
+[Unreleased]: https://github.com/smoltcp-rs/smoltcp/compare/v0.14.0...HEAD
+[0.14.0]: https://github.com/smoltcp-rs/smoltcp/compare/v0.13.1...v0.14.0
 [0.13.1]: https://github.com/smoltcp-rs/smoltcp/compare/v0.13.0...v0.13.1
 [0.13.0]: https://github.com/smoltcp-rs/smoltcp/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/smoltcp-rs/smoltcp/compare/v0.11.0...v0.12.0
