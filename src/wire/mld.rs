@@ -455,7 +455,7 @@ impl<'a> Repr<'a> {
     }
 }
 
-#[cfg(test)]
+#[cfg(all(test, feature = "multicast"))]
 mod test {
     use super::*;
     use crate::phy::ChecksumCapabilities;

@@ -605,6 +605,7 @@ pub enum Repr<'a> {
     },
     #[cfg(any(feature = "medium-ethernet", feature = "medium-ieee802154"))]
     Ndisc(NdiscRepr<'a>),
+    #[cfg(feature = "multicast")]
     Mld(MldRepr<'a>),
     #[cfg(feature = "proto-rpl")]
     Rpl(RplRepr<'a>),
@@ -698,6 +699,7 @@ impl<'a> Repr<'a> {
             }),
             #[cfg(any(feature = "medium-ethernet", feature = "medium-ieee802154"))]
             (msg_type, 0) if msg_type.is_ndisc() => NdiscRepr::parse(packet).map(Repr::Ndisc),
+            #[cfg(feature = "multicast")]
             (msg_type, 0) if msg_type.is_mld() => MldRepr::parse(packet).map(Repr::Mld),
             #[cfg(feature = "proto-rpl")]
             (Message::RplControl, _) => RplRepr::parse(packet).map(Repr::Rpl),
@@ -720,6 +722,7 @@ impl<'a> Repr<'a> {
             }
             #[cfg(any(feature = "medium-ethernet", feature = "medium-ieee802154"))]
             &Repr::Ndisc(ndisc) => ndisc.buffer_len(),
+            #[cfg(feature = "multicast")]
             &Repr::Mld(mld) => mld.buffer_len(),
             #[cfg(feature = "proto-rpl")]
             Repr::Rpl(rpl) => rpl.buffer_len(),
@@ -827,6 +830,7 @@ impl<'a> Repr<'a> {
             #[cfg(any(feature = "medium-ethernet", feature = "medium-ieee802154"))]
             Repr::Ndisc(ndisc) => ndisc.emit(packet),
 
+            #[cfg(feature = "multicast")]
             Repr::Mld(mld) => mld.emit(packet),
 
             #[cfg(feature = "proto-rpl")]
