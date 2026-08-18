@@ -562,6 +562,7 @@ impl InterfaceInner {
         ))
     }
 
+    #[cfg(feature = "multicast")]
     pub(super) fn mldv2_report_packet<'any>(
         &self,
         records: &'any [MldAddressRecordRepr<'any>],
