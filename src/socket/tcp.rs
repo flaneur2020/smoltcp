@@ -1895,7 +1895,9 @@ impl<'a> Socket<'a> {
             // Here we need to additionally check `listen_endpoint`, because we want to make sure
             // that SYN-RECEIVED was actually converted from the LISTEN state (another possible
             // reason is TCP simultaneous open).
-            (State::SynReceived, TcpControl::Rst) if self.listen_endpoint.port != Some(0) => {
+            (State::SynReceived, TcpControl::Rst)
+                if self.listen_endpoint.port.is_some_and(|p| p != 0) =>
+            {
                 tcp_trace!("received RST");
                 self.tuple = None;
                 self.set_state(State::Listen);
