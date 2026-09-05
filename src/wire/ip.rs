@@ -431,10 +431,20 @@ impl<T: Into<Address>> From<(T, u16)> for Endpoint {
 /// A `None` address means "any address", and a `None` port means "any port".
 ///
 /// An endpoint can be constructed from a port, in which case the address is unspecified.
-#[derive(Debug, Hash, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Default)]
+#[derive(Debug, Hash, PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
 pub struct ListenEndpoint {
     pub addr: Option<Address>,
     pub port: Option<u16>,
+}
+
+impl Default for ListenEndpoint {
+    /// Return an unspecified endpoint, which cannot be bound or listened on.
+    fn default() -> Self {
+        Self {
+            addr: None,
+            port: Some(0),
+        }
+    }
 }
 
 impl ListenEndpoint {
