@@ -323,10 +323,10 @@ impl<'a> Socket<'a> {
             _ => return Err(SendError::Unaddressable),
         };
 
-        if let Some(bound_port) = self.endpoint.port {
-            if local_port != bound_port {
-                return Err(SendError::Unaddressable);
-            }
+        if let Some(bound_port) = self.endpoint.port
+            && local_port != bound_port
+        {
+            return Err(SendError::Unaddressable);
         }
 
         if meta.endpoint.addr.is_unspecified() {
@@ -374,10 +374,10 @@ impl<'a> Socket<'a> {
             _ => return Err(SendError::Unaddressable),
         };
 
-        if let Some(bound_port) = self.endpoint.port {
-            if local_port != bound_port {
-                return Err(SendError::Unaddressable);
-            }
+        if let Some(bound_port) = self.endpoint.port
+            && local_port != bound_port
+        {
+            return Err(SendError::Unaddressable);
         }
 
         if meta.endpoint.addr.is_unspecified() {
@@ -510,10 +510,10 @@ impl<'a> Socket<'a> {
         if !self.is_open() || repr.dst_port == 0 {
             return false;
         }
-        if let Some(endpoint_port) = self.endpoint.port {
-            if endpoint_port != repr.dst_port {
-                return false;
-            }
+        if let Some(endpoint_port) = self.endpoint.port
+            && endpoint_port != repr.dst_port
+        {
+            return false;
         }
         if self.endpoint.addr.is_some()
             && self.endpoint.addr != Some(ip_repr.dst_addr())
