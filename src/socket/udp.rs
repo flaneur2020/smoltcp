@@ -23,9 +23,8 @@ pub struct UdpMetadata {
     /// determined using the algorithms of RFC 6724 (candidate source address selection) or some
     /// heuristic (for IPv4).
     pub local_address: Option<IpAddress>,
-    /// Destination port on receive (always set), or source port on send.
-    /// Required when bound to any port. For a fixed-port socket, this must be
-    /// absent or equal to the bound port.
+    /// Destination port on receive (always set); source port on send.
+    /// On send, defaults to the bound port and must match it if fixed.
     pub local_port: Option<u16>,
     pub meta: PacketMeta,
 }

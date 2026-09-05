@@ -3526,6 +3526,70 @@ mod test {
     }
 
     #[test]
+    fn test_any_port_handshake_and_data() {
+        for port in [80, 443] {
+            let mut s = socket();
+            s.listen(IpListenEndpoint::ANY_PORT).unwrap();
+            send!(
+                s,
+                TcpRepr {
+                    dst_port: port,
+                    control: TcpControl::Syn,
+                    seq_number: REMOTE_SEQ,
+                    ack_number: None,
+                    ..SEND_TEMPL
+                }
+            );
+            assert_eq!(s.local_endpoint().unwrap().port, port);
+            recv!(
+                s,
+                [TcpRepr {
+                    src_port: port,
+                    control: TcpControl::Syn,
+                    seq_number: LOCAL_SEQ,
+                    ack_number: Some(REMOTE_SEQ + 1),
+                    max_seg_size: Some(BASE_MSS),
+                    ..RECV_TEMPL
+                }]
+            );
+            send!(
+                s,
+                TcpRepr {
+                    dst_port: port,
+                    seq_number: REMOTE_SEQ + 1,
+                    ack_number: Some(LOCAL_SEQ + 1),
+                    ..SEND_TEMPL
+                }
+            );
+            assert_eq!(s.state(), State::Established);
+            send!(
+                s,
+                TcpRepr {
+                    dst_port: port,
+                    seq_number: REMOTE_SEQ + 1,
+                    ack_number: Some(LOCAL_SEQ + 1),
+                    payload: b"hello",
+                    ..SEND_TEMPL
+                }
+            );
+            let mut data = [0; 5];
+            assert_eq!(s.recv_slice(&mut data), Ok(5));
+            assert_eq!(&data, b"hello");
+            assert_eq!(s.send_slice(b"world"), Ok(5));
+            recv!(
+                s,
+                [TcpRepr {
+                    src_port: port,
+                    seq_number: LOCAL_SEQ + 1,
+                    ack_number: Some(REMOTE_SEQ + 6),
+                    payload: b"world",
+                    ..RECV_TEMPL
+                }]
+            );
+        }
+    }
+
+    #[test]
     fn test_listen_twice() {
         let mut s = socket();
         assert_eq!(s.listen(80), Ok(()));
